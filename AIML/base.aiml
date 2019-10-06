@@ -1,0 +1,25 @@
+<aiml version="0.9.1" encoding="UTF-8">
+
+    <category>
+        <pattern>室内环境如何</pattern>
+        <template>
+            111
+        </template>
+    </category>
+ 
+    <category>
+        <pattern>开灯</pattern>
+        <template>
+            37,1
+        </template>
+    </category>
+ 
+    <category>
+        <pattern>关灯</pattern>
+        <template>
+            37,0
+        </template>
+    </category>
+
+
+</aiml>

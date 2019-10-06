@@ -1,0 +1,25 @@
+<aiml version="0.9.1" encoding="UTF-8">
+ 
+    <!-- Category是一个自动的AIML单元 -->
+    <category>
+	<!-- Pattern用来匹配用户输入 -->
+        <!-- 如果用户输入 "LOAD AIML B" -->
+	<pattern>LOAD AIML B</pattern>
+	<!-- Template是模式的响应 -->
+        <!-- 这里学习一个aiml文件 -->
+	<template>
+	<learn>chat.aiml</learn>
+	<learn>zhoudk.aiml</learn>
+	<learn>corpus1000.aiml</learn>
+	<learn>learn.aiml</learn>
+	<learn>maimeng.aiml</learn>
+	<learn>property.aiml</learn>
+	<learn>rude.aiml</learn>
+	<learn>sex.aiml</learn>
+	<!-- 你可以在这里添加更多的aiml文件 -->
+	<!--<learn>chat.aiml</learn>-->
+	</template>
+ 
+    </category>
+ 
+</aiml>
