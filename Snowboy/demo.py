@@ -1,30 +1,30 @@
 import snowboydecoder
 import sys
 import signal
-
-interrupted = False
-
-
-def signal_handler(signal, frame):
-    global interrupted
-    interrupted = True
+sys.path.append("..")
+from Log import Logger
 
 
-def interrupt_callback():
-    global interrupted
-    return interrupted
+class Snowboy_JLing:
+    def __init__(self, model, sensitivity):
+        self.interrupted = False
+        self.model = model
+        self.sensitivity = sensitivity
+        self.detector = snowboydecoder.HotwordDetector(self.model, sensitivity=self.sensitivity)
 
+    def __del__(self):
+        self.detector.terminate()
 
-model = "jling.pmdl"
+    def signal_handler(self):
+        snowboydecoder.play_audio_file()
+        self.interrupted = True
 
-# capture SIGINT signal, e.g., Ctrl+C
+    def interrupt_callback(self):
+        return self.interrupted
 
-detector = snowboydecoder.HotwordDetector(model, sensitivity=0.5)
-print('Listening... Press Ctrl+C to exit')
-
-# main loop
-detector.start(detected_callback=snowboydecoder.play_audio_file,
-               interrupt_check=interrupt_callback,
-               sleep_time=0.03)
-
-detector.terminate()
+    def start(self):
+        print('Listening... Press Ctrl+C to exit')
+        self.detector.start(detected_callback=self.signal_handler,
+                            interrupt_check=self.interrupt_callback,
+                            sleep_time=0.03)
+        self.interrupted = False
