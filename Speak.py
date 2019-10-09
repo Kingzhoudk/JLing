@@ -5,114 +5,91 @@ import urllib.parse
 import urllib.request
 import aiml
 import os
-import json
-from vcad import Vcad
+from Vcad import VCAD
+
+class PlayVoice:
+    def play_mpg321(self, VoicePath):
+        os.system("mpg321 "+ VoicePath)
+
+class TuLing_AI:
+    # 注册参数key ,userid
+    def __init__(self, key, userid):
+        # 图灵机器人url and post
+        self.url = 'http://www.tuling123.com/openapi/api'
+        self.values = {
+            "key": key,
+            "info": "hello",
+            "userid": userid
+        }
+
+    # message为对话的消息
+    def Tuling(self,message):
+        self.values['info'] = message
+        data = urllib.parse.urlencode(self.values)
+        data = data.encode(encoding='gbk')
+        req = urllib.request.Request(self.url, data)
+        response = urllib.request.urlopen(req)
+        the_page = response.read()
+        msg = eval(the_page.decode())
+        # output=json.load(t)
+        ##转化成string
+        msg = msg['text']
+        return msg
 
 
-######判断是否形成大脑文件
-import aiml
-  
-mybotChat = aiml.Kernel()
-#自定义对话指令库
-if os.path.isfile("./AIML/chat.brn"):
-    mybotChat.bootstrap(brainFile="./AIML/chat.brn")
-else:
-    mybotChat.bootstrap(learnFiles="./AIML/chat.xml", commands="load aiml b")
-    mybotChat.saveBrain("./AIML/chat.brn")
-#########################
+class BaiDu_AI:
+    def __init__(self, APP_ID, API_KEY, SECRET_KEY):
+        # 百度url and post
+        self.APP_ID = APP_ID
+        self.API_KEY = API_KEY
+        self.SECRET_KEY = SECRET_KEY
+        # 百度语音初始化AipSpeech对象
+        self.client = AipSpeech(self.APP_ID, self.API_KEY, self.SECRET_KEY)
 
-#百度url and post
-APP_ID = '10469729'
-API_KEY = 'orVUrM1igOq0ZB2wryx7dLkz'
-SECRET_KEY = 'G6sfSlTOR2eqC0ldvyY0aMnPKnnA1ess'
+    # 文件读取
+    def get_file_content(self, VoicePath):
+        with open(VoicePath, 'rb') as fp:
+            return fp.read()
 
-#百度语音初始化AipSpeech对象
-client = AipSpeech(APP_ID, API_KEY, SECRET_KEY)
-
-#图灵机器人url and post
-url = 'http://www.tuling123.com/openapi/api'
-values = {
-"key":"7172c50c2b5f48d08715bd0a9f9878c6",
-"info":"hello",
-"userid":"123456"
-}
-
-#文件读取
-def get_file_content(filePath):
-    with open(filePath, 'rb') as fp:
-        return fp.read()
- 
-
-# 识别本地文件   
-def VoiceTest():
-    result= client.asr(get_file_content('input.wav'), 'wav', 16000, {
-        'lan': 'zh',
+    # 识别本地文件
+    def VoiceTest(self, VoicePath):
+        result = self.client.asr(self.get_file_content(VoicePath), 'wav', 16000, {
+            'lan': 'zh',
         })
-    #转化成string,如果没有则返回error
-    try:
-        str=result['result'][0]
-    except:
-        str='error'
-    # print(str)
-    #去除标点
-    str=str[0:-1]
-    return str
+        # 转化成string,如果没有则返回error
+        try:
+            msg = result['result'][0]
+        except:
+            msg = 'error'
+        # print(str)
+        # 去除标点
+        msg = msg[0:-1]
+        return msg
 
-#百度语音合成
-def MyTTS(message):
-    result  = client.synthesis(message, 'zh', 1, {
-    'vol': 5,
-    })
-    # 识别正确返回语音二进制 错误则返回dict 参照下面错误码
-    # print(result)
-    if not isinstance(result, dict):
-        with open('output.mp3', 'wb') as f:
-            f.write(result)
-    
-
-#图灵机器人
-def Tuling(str):
-    values['info']=str
-    data = urllib.parse.urlencode(values)
-    data = data.encode(encoding='gbk')
-    req = urllib.request.Request(url, data)
-    response = urllib.request.urlopen(req)
-    the_page = response.read()
-    t=eval(the_page.decode())
-    ##转化成string
-    output=t['text']
-    #print(output)
-    return output
-    
-
-#播放
-def OutputVoice():
-    os.system("mpg321 output.mp3")
-
-#录音
-def InputVoice():
-    print("开始录音：")
-    Vcad()
+    # 百度语音合成,message合成消息,VoicePath为合成语音路径
+    def MyTTS(self, message, VoicePath):
+        result = self.client.synthesis(message, 'zh', 1, {
+            'vol': 5,
+        })
+        # 识别正确返回语音二进制 错误则返回dict 参照下面错误码
+        if not isinstance(result, dict):
+            with open(VoicePath, 'wb') as f:
+                f.write(result)
 
 
-# 对话逻辑主函数
-def JLing_speak():
-    InputVoice()
-    message=VoiceTest()
-    print(message)
-    if(message =='erro'):
-        print("林")
-        bot_response="请再说一遍，我刚刚没听清"
-    else:
-          #检测自己的自定义对话似是否存在
-        bot_response=mybotChat.respond(message)
-          #若指令都不存在，则连接图灵机器人
-        if(bot_response==""):
-            bot_response=Tuling(message)
+class JLing_Speak:
+    def __init__(self, config):
+        # 判断是否形成大脑文件
+        self.mybotChat = aiml.Kernel()
+        # 自定义对话指令库
+        if os.path.isfile("./AIML/JLing_chat.brn"):
+            self.mybotChat.bootstrap(brainFile="./AIML/JLing_chat.brn")
+        else:
+            self.mybotChat.bootstrap(learnFiles="./AIML/JLing.xml", commands="load aiml b")
+            self.mybotChat.saveBrain("./AIML/JLing_chat.brn")
+        # JLing关闭
+        self.exit=False
 
-    print(bot_response)
-     #生成语音
-    MyTTS(bot_response)
-     #播放语音
-    OutputVoice()
-
+    def Speak(self):
+        Tuling=TuLing_AI()
+        while self.exit==False:

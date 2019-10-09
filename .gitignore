@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Voice
+input.wav
+input.mp3
+output.wav
+output.mp3
+
 # C extensions
 *.so
 
