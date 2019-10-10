@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from Speak import JLing_speak
+from Speak import JLing_Speak
 import sys
 
 
-def main:
+def main():
     print('''
 ********************************************************
 *           JLing - 中文语音对话机器人                *
@@ -13,4 +13,7 @@ def main:
             如需退出，可以按 Ctrl-c 组合键。
 
 ''')
-    JLing_speak()
+    mybot=JLing_Speak()
+    mybot.Speak()
+
+main()
