@@ -37,8 +37,6 @@ JLing的将所有的功能都模块化：
 github: https://github.com/Kingzhoudk/JLing
 
 ## 配置
-* 见配置文件
-
 ```powershell
 pip3 install aiml
 pip3 install webrtcvad
