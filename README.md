@@ -1,7 +1,8 @@
 ## JLing  
-JLing是一个可以工作在Linux的中文语音对话机器人  
-(csdn：https://blog.csdn.net/weixin_40490238)  
-(github: https://github.com/Kingzhoudk/JLing)
+JLing是一个可以工作在Linux的自定义中文语音对话机器人  
+(csdn ：[https://blog.csdn.net/weixin_40490238](https://blog.csdn.net/weixin_40490238))  
+(github: [https://github.com/Kingzhoudk/JLing](https://github.com/Kingzhoudk/JLing))
+
 ## 目录
 * [特点](#特点)
 * [运行环境](#运行环境)
@@ -37,8 +38,29 @@ github: https://github.com/Kingzhoudk/JLing
 
 ## 配置
 * 见配置文件
+
+```powershell
+pip3 install aiml
+pip3 install webrtcvad
+pip3 install baidu-aip
+pip3 install logging
+pip3 install configparser
+sudo apt-get install python3-pyaudio
+sudo apt-get install python3-serial
+sudo apt-get install swig
+sudo apt-get install libatlas-base-dev
+[树莓派还需安装]：
+sudo apt-get install sox
+sudo apt-get install alsa-utils
+sudo apt-get install pulseaudio
+```
+
 ## 运行
+
+```powershell
 ./JLing.sh
+```
+
 ## 联系
 * JLing只作个人学习研究，如因使用JLing造成任何损失，本人概不负责。
 * 邮箱：zhoudk@ccitrobot.com
