@@ -18,6 +18,13 @@ class Snowboy_JLing:
     def interrupt_callback(self):
         return self.interrupted
 
+    # 播放音频
+    def play_audio(self, fileList):
+        snowboydecoder.play_audio_file(fileList)
+
+    def Vcad(self):
+        print("asd")
+
     def start(self):
         print('JLing等待唤醒')
         self.detector.start(detected_callback=self.signal_handler,

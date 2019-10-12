@@ -1,13 +1,13 @@
 import aiml
 import sys
-import os 
+import os
 
-kernel = aiml.Kernel() 
-if os.path.isfile("chat.brn"): 
-	kernel1.bootstrap(brainFile = "JLing.brn")
-else: 
-	kernel1.bootstrap(learnFiles = "JLing.xml", commands = "load aiml b")
-	kernel1.saveBrain("JLing.brn") 
+kernel = aiml.Kernel()
+if os.path.isfile("JLing_chat.brn"):
+    kernel.bootstrap(brainFile="JLing_chat.brn")
+else:
+    kernel.bootstrap(learnFiles="JLing.xml", commands="load aiml b")
+    kernel.saveBrain("JLing.brn")
 
-while True: 
-	print(kernel.respond(input("Enter your message >> ")))
+while True:
+    print(kernel.respond(input("Enter your message >> ")))
