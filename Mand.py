@@ -28,10 +28,11 @@ class JLing_Mand:
                                    self.config.get("Baidu", "SECRET_KEY"))
 
         # 端口表
-        self.JLingTalk_host = (self.config.get("JLing", "JLingIp"), self.config.get("JLing", "JLingTalk_port"))
-        self.JLingAgora_host = (self.config.get("JLing", "JLingIp"), self.config.get("JLing", "JLingAgora_port"))
-        self.JLingCommand_host = (self.config.get("JLing", "JLingIp"), self.config.get("JLing", "JLingCommand_port"))
-        self.JLingRun_host = (self.config.get("JLing", "RunIp"), self.config.get("JLing", "Run_port"))
+        self.JLingTalk_host = (str(self.config.get("JLing", "JLingIp")), int(self.config.get("JLing", "JLingTalk_port")))
+        self.JLingAgora_host = (str(self.config.get("JLing", "JLingIp")), int(self.config.get("JLing", "JLingAgora_port")))
+        self.JLingCommand_host = (str(self.config.get("JLing", "JLingIp")), int(self.config.get("JLing", "JLingCommand_port")))
+        self.JLingRun_host = (str(self.config.get("JLing", "RunIp")), int(self.config.get("JLing", "Run_port")))
+        self.logger.info("端口表配置成功")
 
     # 数据的写入
     def writeTxT(self, path, msg):
@@ -56,7 +57,7 @@ class JLing_Mand:
         while True:
             data, addr = client.recvfrom(1024)
             message = str(data, encoding='utf-8')
-            self.logger.info("Mand_MSG:" + str(message) + "Addr:" + str(addr))
+            self.logger.info("Mand_MSG:" + str(message) + ",Addr:" + str(addr))
             # Mand终止
             if message == "JLing_exit":
                 exit()

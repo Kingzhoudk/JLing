@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Speak import JLing_Speak
+from Talk import JLing_Talk
 import sys
 
 
@@ -13,8 +13,8 @@ if __name__ == '__main__':
                 如需退出，可以按 Ctrl-c 组合键。
     ''')
     try:
-        mybot = JLing_Speak()
-        mybot.Speak()
+        mybot = JLing_Talk()
+        mybot.Start()
     except:
         exit()
 

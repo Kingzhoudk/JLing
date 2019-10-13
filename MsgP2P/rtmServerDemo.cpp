@@ -70,16 +70,16 @@ class RtmEventHandler: public agora::rtm::IRtmServiceEventHandler {
             printf("creat socket failed!\n");
             exit(1);
         }
-        struct sockaddr_in Agora_addr;
-        memset(&Agora_addr,0,sizeof(Agora_addr)); //每个字节都用0填充
-        Agora_addr.sin_family=AF_INET;//使用ipv4地址
-        Agora_addr.sin_port=htons(Jling_PORT);//端口
-        Agora_addr.sin_addr.s_addr=inet_addr(IP_ADDRESS);//IP地址
-        unsigned int len=sizeof(Agora_addr);
+        struct sockaddr_in Jling_addr;
+        memset(&Jling_addr,0,sizeof(Jling_addr)); //每个字节都用0填充
+        Jling_addr.sin_family=AF_INET;//使用ipv4地址
+        Jling_addr.sin_port=htons(Jling_PORT);//端口
+        Jling_addr.sin_addr.s_addr=inet_addr(IP_ADDRESS);//IP地址
+        unsigned int len=sizeof(Jling_addr);
 
-        sendto(socked_sg,message->getText(),strlen(message->getText()),0,(struct sockaddr *)&Agora_addr,len);
+        sendto(socked_sg,message->getText(),strlen(message->getText()),0,(struct sockaddr *)&Jling_addr,len);
         cout << "on message received from peer: peerId = " << peerId
-             << " ,message = " << message->getText() <<" ,send port:"<<Agora_PORT<< endl;
+             << " ,message = " << message->getText() <<" ,send to Jling_PORT:"<<Jling_PORT<< endl;
         close(socked_sg);
     }
 };
@@ -192,7 +192,7 @@ class Demo {
     void p2pChat(const std::string& dst) {
         //建立udp socket
 
-        cout<<"Start UDP Recv IP:"<<IP_ADDRESS<<",PORT:"<<Jling_PORT<<endl;
+        cout<<"Start UDP Recv IP:"<<IP_ADDRESS<<",PORT:"<<Agora_PORT<<endl;
         int socked_fd=socket(AF_INET,SOCK_DGRAM,0);
         if(socked_fd<0)
         {
@@ -212,9 +212,9 @@ class Demo {
             char MSG[MSG_MAXCHAR]={0};
             recvfrom(socked_fd,MSG,MSG_MAXCHAR,0,(sockaddr *)&addr_serv,&len);
             msg=(string)MSG;
-            cout<<"Recv:"<<msg<<" From:"<<Jling_PORT<<endl;
-            if (msg.compare("quit") == 0) {
-                return;
+            cout<<"Recv:"<<msg<<" From: Jling"<<endl;
+            if (msg.compare("JLing_exit") == 0) {
+                exit(0);
             } else {
                 sendMessageToPeer(dst, msg);
             }

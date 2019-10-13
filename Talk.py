@@ -37,10 +37,10 @@ class JLing_Talk:
         self.Playwav = snowboy.PlayAudio_wav()
 
         # 端口表
-        self.JLingTalk_host = (self.config.get("JLing", "JLingIp"), self.config.get("JLing", "JLingTalk_port"))
-        self.JLingAgora_host = (self.config.get("JLing", "JLingIp"), self.config.get("JLing", "JLingAgora_port"))
-        self.JLingCommand_host = (self.config.get("JLing", "JLingIp"), self.config.get("JLing", "JLingCommand_port"))
-        self.JLingRun_host = (self.config.get("JLing", "RunIp"), self.config.get("JLing", "Run_port"))
+        self.JLingTalk_host = (str(self.config.get("JLing", "JLingIp")), int(self.config.get("JLing", "JLingTalk_port")))
+        self.JLingAgora_host = (str(self.config.get("JLing", "JLingIp")), int(self.config.get("JLing", "JLingAgora_port")))
+        self.JLingCommand_host = (str(self.config.get("JLing", "JLingIp")), int(self.config.get("JLing", "JLingCommand_port")))
+        self.JLingRun_host = (str(self.config.get("JLing", "RunIp")), int(self.config.get("JLing", "Run_port")))
         self.logger.info("端口表配置成功")
 
         # 判断是否形成大脑文件,生成mybotchat自定义聊天库，mybotmand自定义指令库
@@ -81,7 +81,7 @@ class JLing_Talk:
                 exit()
             # 清洗数据
             message = str(data, encoding='utf-8')
-            self.logger.info("Msg to Agora:" + message + " ,Addr:" + str(addr))
+            self.logger.info("msg to Agora:" + message + " ,Addr:" + str(addr))
             # 命令发送给Mand进程
             if message.find("000") >= 0:
                 client.sendto(message.encode(encoding="utf-8"), self.JLingCommand_host)
@@ -97,6 +97,7 @@ class JLing_Talk:
                         self.logger.info("TuLing:" + bot_response)
                     else:
                         self.logger.info("mybotChat:" + bot_response)
+                    client.sendto(message.encode(encoding="utf-8"), self.JLingAgora_host)
                 else:
                     # 自己的指令库的指令发给mand
                     client.sendto(message.encode(encoding="utf-8"), self.JLingCommand_host)
