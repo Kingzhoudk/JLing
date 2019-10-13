@@ -4,6 +4,12 @@ import sys
 import signal
 
 
+class PlayAudio_wav:
+    # 播放音频
+    def play_audio(self, fileList):
+        snowboydecoder.play_audio_file(fileList)
+
+
 class Snowboy_JLing:
     def __init__(self, model, sensitivity):
         self.interrupted = False
@@ -17,10 +23,6 @@ class Snowboy_JLing:
 
     def interrupt_callback(self):
         return self.interrupted
-
-    # 播放音频
-    def play_audio(self, fileList):
-        snowboydecoder.play_audio_file(fileList)
 
     def Vcad(self):
         print("asd")
