@@ -12,6 +12,9 @@ if __name__ == '__main__':
 
                 如需退出，可以按 Ctrl-c 组合键。
     ''')
-    mybot = JLing_Speak()
-    mybot.Speak()
+    try:
+        mybot = JLing_Speak()
+        mybot.Speak()
+    except:
+        exit()
 

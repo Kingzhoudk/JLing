@@ -6,12 +6,11 @@ import urllib.request
 import aiml
 import os
 import configparser
-from Vcad import VCAD
 from Log.Log import Logger
 from Snowboy.snowboy import Snowboy_JLing
 
 
-class TuLing_AI:
+class TuLing_Sdk:
     # 注册参数key ,userid
     def __init__(self, key, userid):
         # 图灵机器人url and post
@@ -37,7 +36,7 @@ class TuLing_AI:
         return msg
 
 
-class BaiDu_AI:
+class BaiDu_Sdk:
     def __init__(self, APP_ID, API_KEY, SECRET_KEY):
         # 百度url and post
         self.APP_ID = APP_ID
@@ -77,51 +76,3 @@ class BaiDu_AI:
                 f.write(result)
 
 
-class JLingAi:
-    def __init__(self):
-        # 调试消息
-        self.logger = Logger('./Log/JLing_Speak.txt', level="info").logger
-        # 判断是否形成大脑文件,生成mybotchat
-        self.mybotChat = aiml.Kernel()
-        # 自定义对话指令库
-        if os.path.isfile("./AIML/JLing_chat.brn"):
-            self.mybotChat.bootstrap(brainFile="./AIML/JLing_chat.brn")
-        else:
-            self.mybotChat.bootstrap(learnFiles="./AIML/JLing.xml", commands="load aiml b")
-            self.mybotChat.saveBrain("./AIML/JLing_chat.brn")
-        # 读取配置信息
-        self.config = configparser.ConfigParser()
-        self.config.read("config.ini")
-        # 输出音频的路径
-        self.FilePath = os.path.dirname(os.path.abspath(__file__))
-        self.OutPutFile = os.path.join(self.FilePath, "output.wav")
-        # JLing关闭
-        self.exit = False
-
-    def Speak(self):
-        try:
-            # 注册图灵机器人
-            Tuling = TuLing_AI(self.config.get("Tuling", "key"), self.config.get("Tuling", "userid"))
-            # 注册Baidu的API
-            Baidu = BaiDu_AI(self.config.get("Baidu", "APP_ID"), self.config.get("Baidu", "API_KEY"),
-                             self.config.get("Baidu", "SECRET_KEY"))
-        except:
-            # 注册功能失败
-            self.logger.info("注册功能失败")
-            self.exit = True
-            return
-
-        while self.exit == False:
-            message = Baidu.SpeechRecognition()
-            self.logger.info("刚刚说的：" + message)
-            if message == 'error':
-                bot_response = "请在说一遍，我刚刚走神了。"
-            else:
-                # 判断自己的本地词料库是否存在指令
-                bot_response = self.mybotChat.respond(message)
-                self.logger.info("MybotChat回答：" + bot_response)
-                if bot_response == "":
-                    bot_response = Tuling.start(message)
-                    self.logger.info("Tuling回答：" + bot_response)
-            Baidu.MyTTS(bot_response)
-            Snowboy.play_audio(self.OutPutFile)
