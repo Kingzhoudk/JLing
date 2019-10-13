@@ -26,8 +26,11 @@ class Snowboy_JLing:
         print("asd")
 
     def start(self):
-        print('JLing等待唤醒')
-        self.detector.start(detected_callback=self.signal_handler,
-                            interrupt_check=self.interrupt_callback,
-                            sleep_time=0.03)
-        self.interrupted = False
+        try:
+            print('JLing等待唤醒')
+            self.detector.start(detected_callback=self.signal_handler,
+                                interrupt_check=self.interrupt_callback,
+                                sleep_time=0.03)
+            self.interrupted = False
+        except:
+            exit()
