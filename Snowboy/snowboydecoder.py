@@ -7,7 +7,7 @@ from . import snowboydetect
 from Log.Log import Logger
 
 # 调试消息
-logger = Logger('Log/snowboy.txt', level="info").logger
+logger = Logger('Log/JLing_Snowboy.txt', level="info").logger
 
 TOP_DIR = os.path.dirname(os.path.abspath(__file__))
 RESOURCE_FILE = os.path.join(TOP_DIR, "resources/common.res")

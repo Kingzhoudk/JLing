@@ -9,7 +9,7 @@ from . import Sdk
 class JLingAi:
     def __init__(self):
         # 调试消息
-        self.logger = Logger('./Log/JLingAi.txt', level="info").logger
+        self.logger = Logger('./Log/JLing_Ai.txt', level="info").logger
 
         # 读取配置信息
         self.config = configparser.ConfigParser()

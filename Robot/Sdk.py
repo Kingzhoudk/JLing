@@ -1,13 +1,8 @@
 # -*- coding: utf-8 -*-
-import sys
+
 from aip import AipSpeech
 import urllib.parse
 import urllib.request
-import aiml
-import os
-import configparser
-from Log.Log import Logger
-from Snowboy.snowboy import Snowboy_JLing
 
 
 class TuLing_Sdk:
@@ -74,5 +69,3 @@ class BaiDu_Sdk:
         if not isinstance(result, dict):
             with open('output.wav', 'wb') as f:
                 f.write(result)
-
-

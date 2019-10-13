@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-import sys
-from aip import AipSpeech
-import urllib.parse
-import urllib.request
-import aiml
 import os
 import configparser
 from Vcad import VCAD
