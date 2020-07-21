@@ -56,7 +56,7 @@ sudo apt-get install pulseaudio
 ## 运行
 
 ```powershell
-./JLing.sh
+./JLing.py
 ```
 
 ## 联系
